@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package debug;
+
+service DebugService {
+  rpc GetUser (UserRequest) returns (UserResponse);
+  rpc StreamLogs (LogRequest) returns (stream LogMessage);
+}
+
+message UserRequest {
+  string id = 1;
+}
+
+message UserResponse {
+  string name = 1;
+  int32 age = 2;
+}
+
+message LogRequest {}
+
+message LogMessage {
+  string message = 1;
+}

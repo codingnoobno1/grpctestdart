@@ -1,0 +1,8 @@
+# .gitignore for Dart/Flutter projects
+.dart_tool/
+.packages
+.pub/
+build/
+ios/Flutter/Generated.xcconfig
+scripts/config.yaml
+pubspec.lock
