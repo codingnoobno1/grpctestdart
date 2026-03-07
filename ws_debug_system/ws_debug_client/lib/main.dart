@@ -1,9 +1,11 @@
-import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
+import 'package:web_socket_channel/io.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
+import 'package:devtools_shared/devtools_shared.dart';
 
 void main() {
   runApp(
@@ -57,13 +59,14 @@ class WebSocketProvider with ChangeNotifier {
   List<LogEntry> get logs => List.unmodifiable(_logs);
 
   void connectAll() {
-    _connectNode1();
-    _connectNode2();
+    unawaited(_connectNode1());
+    unawaited(_connectNode2());
   }
 
-  void _connectNode1() {
+  Future<void> _connectNode1() async {
     try {
-      _node1 = WebSocketChannel.connect(Uri.parse('ws://localhost:8081'));
+      final socket = await WebSocket.connect('ws://localhost:8081');
+      _node1 = IOWebSocketChannel(ProfileableWebSocket(socket));
       isConnected1 = true;
       _addLog('SYSTEM', 'Connecting to Node 1...', Colors.grey);
       
@@ -84,9 +87,10 @@ class WebSocketProvider with ChangeNotifier {
     }
   }
 
-  void _connectNode2() {
+  Future<void> _connectNode2() async {
     try {
-      _node2 = WebSocketChannel.connect(Uri.parse('ws://localhost:8082'));
+      final socket = await WebSocket.connect('ws://localhost:8082');
+      _node2 = IOWebSocketChannel(ProfileableWebSocket(socket));
       isConnected2 = true;
       _addLog('SYSTEM', 'Connecting to Node 2...', Colors.grey);
       
