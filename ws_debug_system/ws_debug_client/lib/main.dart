@@ -63,15 +63,19 @@ class WebSocketProvider with ChangeNotifier {
     unawaited(_connectNode2());
   }
 
+  String get _host => Platform.isAndroid ? '10.0.2.2' : 'localhost';
+
   Future<void> _connectNode1() async {
     try {
-      final socket = await WebSocket.connect('ws://localhost:8081');
+      final socket = await WebSocket.connect('ws://$_host:8081');
       _node1 = IOWebSocketChannel(ProfileableWebSocket(socket));
       isConnected1 = true;
-      _addLog('SYSTEM', 'Connecting to Node 1...', Colors.grey);
+      _addLog('SYSTEM', 'Connecting to Node 1 ($_host)...', Colors.grey);
       
       _node1!.stream.listen((msg) {
         _addLog('NODE 1', msg.toString(), const Color(0xFF00E5FF));
+      }, onData: (data) {
+        _addLog('NODE 1', data.toString(), const Color(0xFF00E5FF));
       }, onDone: () {
         isConnected1 = false;
         _addLog('SYSTEM', 'Node 1 Disconnected', Colors.redAccent);
@@ -89,13 +93,15 @@ class WebSocketProvider with ChangeNotifier {
 
   Future<void> _connectNode2() async {
     try {
-      final socket = await WebSocket.connect('ws://localhost:8082');
+      final socket = await WebSocket.connect('ws://$_host:8082');
       _node2 = IOWebSocketChannel(ProfileableWebSocket(socket));
       isConnected2 = true;
-      _addLog('SYSTEM', 'Connecting to Node 2...', Colors.grey);
+      _addLog('SYSTEM', 'Connecting to Node 2 ($_host)...', Colors.grey);
       
       _node2!.stream.listen((msg) {
         _addLog('NODE 2', msg.toString(), const Color(0xFFD500F9)); // Neon Purple
+      }, onData: (data) {
+        _addLog('NODE 2', data.toString(), const Color(0xFFD500F9));
       }, onDone: () {
         isConnected2 = false;
         _addLog('SYSTEM', 'Node 2 Disconnected', Colors.redAccent);
