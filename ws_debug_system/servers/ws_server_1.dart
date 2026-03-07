@@ -7,11 +7,11 @@ void main() async {
     print('[Server 1] Client connected');
     webSocket.stream.listen((message) {
       print('[Server 1] Received: $message');
-      final data = jsonDecode(message as String);
+      final messageText = message.toString();
       final response = jsonEncode({
         'node': 'SERVER_1',
         'type': 'ECHO',
-        'payload': 'Echo: ${data['payload']}',
+        'payload': 'Echo: $messageText',
         'timestamp': DateTime.now().toIso8601String(),
       });
       webSocket.sink.add(response);

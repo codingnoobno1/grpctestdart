@@ -12,11 +12,11 @@ void main() async {
 
     webSocket.stream.listen((message) {
       print('[Server 2] Broadcasting: $message');
-      final data = jsonDecode(message as String);
+      final messageText = message.toString();
       final broadcastMsg = jsonEncode({
         'node': 'SERVER_2',
         'type': 'BROADCAST',
-        'payload': data['payload'],
+        'payload': messageText,
         'timestamp': DateTime.now().toIso8601String(),
         'clientCount': _clients.length,
       });
