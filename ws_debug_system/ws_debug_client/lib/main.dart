@@ -60,8 +60,8 @@ class WebSocketProvider with ChangeNotifier {
   List<LogEntry> get logs => List.unmodifiable(_logs);
 
   void connectAll() {
-    Future.unawaited(_connectNode1());
-    Future.unawaited(_connectNode2());
+    unawaited(_connectNode1());
+    unawaited(_connectNode2());
   }
 
   String get _host => Platform.isAndroid ? '10.0.2.2' : 'localhost';
