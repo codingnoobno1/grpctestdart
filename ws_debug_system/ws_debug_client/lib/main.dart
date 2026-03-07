@@ -60,8 +60,8 @@ class WebSocketProvider with ChangeNotifier {
   List<LogEntry> get logs => List.unmodifiable(_logs);
 
   void connectAll() {
-    unawaited(_connectNode1());
-    unawaited(_connectNode2());
+    Future.unawaited(_connectNode1());
+    Future.unawaited(_connectNode2());
   }
 
   String get _host => Platform.isAndroid ? '10.0.2.2' : 'localhost';
@@ -75,8 +75,6 @@ class WebSocketProvider with ChangeNotifier {
       
       _node1!.stream.listen((msg) {
         _addLog('NODE 1', msg.toString(), const Color(0xFF00E5FF));
-      }, onData: (data) {
-        _addLog('NODE 1', data.toString(), const Color(0xFF00E5FF));
       }, onDone: () {
         isConnected1 = false;
         _addLog('SYSTEM', 'Node 1 Disconnected', Colors.redAccent);
@@ -101,8 +99,6 @@ class WebSocketProvider with ChangeNotifier {
       
       _node2!.stream.listen((msg) {
         _addLog('NODE 2', msg.toString(), const Color(0xFFD500F9)); // Neon Purple
-      }, onData: (data) {
-        _addLog('NODE 2', data.toString(), const Color(0xFFD500F9));
       }, onDone: () {
         isConnected2 = false;
         _addLog('SYSTEM', 'Node 2 Disconnected', Colors.redAccent);
