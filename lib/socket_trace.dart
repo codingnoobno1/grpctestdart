@@ -8,3 +8,6 @@ export 'src/websocket/profiler.dart';
 export 'src/tracing/vm_trace_client.dart';
 export 'src/grpc/grpc_instrumentation.dart';
 export 'src/ui/socket_trace_view.dart';
+export 'src/debug/debug_forwarder.dart';
+export 'src/debug/embedded_server.dart';
+export 'src/auto_trace.dart';

@@ -1,0 +1,10 @@
+name: socket_trace_example
+description: Examples for the socket_trace package
+publish_to: none
+
+environment:
+  sdk: ">=3.0.0 <4.0.0"
+
+dependencies:
+  socket_trace:
+    path: ../

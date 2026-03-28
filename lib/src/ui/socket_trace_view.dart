@@ -73,14 +73,14 @@ class _SocketTraceViewState extends State<SocketTraceView> {
                             (event.type == 'grpc'
                                     ? Colors.green
                                     : Colors.orange)
-                                .withOpacity(0.1),
+                                .withValues(alpha: 0.1),
                         borderRadius: BorderRadius.circular(4),
                         border: Border.all(
                           color:
                               (event.type == 'grpc'
                                       ? Colors.green
                                       : Colors.orange)
-                                  .withOpacity(0.4),
+                                  .withValues(alpha: 0.4),
                         ),
                       ),
                       child: Text(

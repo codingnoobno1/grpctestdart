@@ -6,6 +6,7 @@ import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
 import 'websocket_event.dart';
+import '../debug/debug_forwarder.dart';
 
 /// A wrapper around [WebSocket] that instruments frame events.
 class ProfileableWebSocket implements WebSocket {
@@ -237,6 +238,9 @@ class ProfileableWebSocket implements WebSocket {
       'WebSocketFrame',
       arguments: {'direction': direction, 'size': size, 'type': type},
     );
+    
+    // Forward to debug server if enabled
+    DebugForwarder.forward(event, payload: data.toString());
   }
 
   int _getSize(dynamic data) {

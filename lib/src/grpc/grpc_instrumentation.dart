@@ -21,12 +21,13 @@ class SocketTraceGrpcInterceptor implements ClientInterceptor {
 
     final response = invoker(method, instrumentedRequests, options);
 
-    return ResponseStream<R>(
-      response.map((data) {
-        _recordEvent(data, 'receive', method.path);
-        return data;
-      }),
-    );
+    // Cast the transformed stream back to ResponseStream
+    final transformedStream = response.map((data) {
+      _recordEvent(data, 'receive', method.path);
+      return data;
+    });
+
+    return transformedStream as ResponseStream<R>;
   }
 
   @override
@@ -40,12 +41,13 @@ class SocketTraceGrpcInterceptor implements ClientInterceptor {
 
     final response = invoker(method, request, options);
 
-    return ResponseFuture<R>(
-      response.then((data) {
-        _recordEvent(data, 'receive', method.path);
-        return data;
-      }),
-    );
+    // Transform the response future to record events
+    response.then((data) {
+      _recordEvent(data, 'receive', method.path);
+      return data;
+    });
+
+    return response;
   }
 
   void _recordEvent(dynamic data, String direction, String path) {

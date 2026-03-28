@@ -1,21 +1,30 @@
 name: socket_trace
-description: A reusable Flutter package for tracing and debugging WebSocket and gRPC traffic.
+description: WebSocket and gRPC tracing library with automatic packet capture, timeline integration, and live debugging UI. Like Chrome DevTools for Flutter!
 version: 1.0.0
-publish_to: none
+homepage: https://github.com/yourusername/socket_trace
+repository: https://github.com/yourusername/socket_trace
+issue_tracker: https://github.com/yourusername/socket_trace/issues
 
 environment:
-  sdk: ">=3.10.4 <4.0.0"
+  sdk: ">=3.0.0 <4.0.0"
+  flutter: ">=3.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
   vm_service: ^13.0.0
-  devtools_shared:
-    path: ../devtools/packages/devtools_shared
-  args: ^2.4.2
   intl: ^0.19.0
   grpc: ^3.2.4
 
 dev_dependencies:
+  flutter_test:
+    sdk: flutter
   lints: ^3.0.0
   test: ^1.24.0
+
+topics:
+  - websocket
+  - debugging
+  - devtools
+  - grpc
+  - networking

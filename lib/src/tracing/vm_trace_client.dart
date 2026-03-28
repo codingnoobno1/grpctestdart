@@ -3,7 +3,6 @@
 // found in the LICENSE file or at https://developers.google.com/open-source/licenses/bsd.
 
 import 'dart:async';
-import 'dart:io';
 import 'package:vm_service/vm_service.dart';
 import 'package:vm_service/vm_service_io.dart';
 import 'package:intl/intl.dart';
@@ -40,27 +39,29 @@ class VMTraceClient {
     await _service!.setVMTimelineFlags(['Dart']);
 
     _service!.onTimelineEvent.listen((Event event) {
-      final timelineEvent = event.timelineEvent;
-      if (timelineEvent == null) return;
+      final timelineEvents = event.timelineEvents;
+      if (timelineEvents == null || timelineEvents.isEmpty) return;
 
-      final name = timelineEvent.json?['name'];
-      if (name == 'WebSocketFrame') {
-        final args = timelineEvent.json?['args'] as Map<String, dynamic>;
+      for (final timelineEvent in timelineEvents) {
+        final name = timelineEvent.json?['name'];
+        if (name == 'WebSocketFrame') {
+          final args = timelineEvent.json?['args'] as Map<String, dynamic>;
 
-        if (onFrame != null) {
-          onFrame(
-            time: DateTime.now(),
-            direction: (args['direction'] as String).toUpperCase(),
-            type: (args['type'] as String).toUpperCase(),
-            size: args['size'] as int,
-          );
-        } else {
-          _defaultPrint(
-            time: DateTime.now(),
-            direction: (args['direction'] as String).toUpperCase(),
-            type: (args['type'] as String).toUpperCase(),
-            size: args['size'] as int,
-          );
+          if (onFrame != null) {
+            onFrame(
+              time: DateTime.now(),
+              direction: (args['direction'] as String).toUpperCase(),
+              type: (args['type'] as String).toUpperCase(),
+              size: args['size'] as int,
+            );
+          } else {
+            _defaultPrint(
+              time: DateTime.now(),
+              direction: (args['direction'] as String).toUpperCase(),
+              type: (args['type'] as String).toUpperCase(),
+              size: args['size'] as int,
+            );
+          }
         }
       }
     });
